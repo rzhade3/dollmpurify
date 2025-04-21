@@ -1,0 +1,89 @@
+Generate me a GBNF grammar (for use constraining an LLM's output) that describes all HTML tags supported by Markdown HTML. This grammar should cover: 
+* <p> 
+* <em> 
+* <strong> 
+* <a> 
+* <img> 
+* <blockquote> 
+* <code> 
+* <pre> 
+* <h1>
+* <h2>
+* <h3>
+* <h4>
+* <h5>
+* <h6>
+* <hr>
+* <ul>
+* <ol>
+* <li>
+
+Here are examples of valid GBNF grammars:
+
+```
+# `root` specifies the pattern for the overall output
+root ::= (
+    # it must start with the characters "1. " followed by a sequence
+    # of characters that match the `move` rule, followed by a space, followed
+    # by another move, and then a newline
+    "1. " move " " move "\n"
+
+    # it's followed by one or more subsequent moves, numbered with one or two digits
+    ([1-9] [0-9]? ". " move " " move "\n")+
+)
+
+# `move` is an abstract representation, which can be a pawn, nonpawn, or castle.
+# The `[+#]?` denotes the possibility of checking or mate signs after moves
+move ::= (pawn | nonpawn | castle) [+#]?
+
+pawn ::= ...
+nonpawn ::= ...
+castle ::= ...
+```
+
+Another example:
+
+```
+root ::= (declaration)*
+
+declaration ::= dataType identifier "(" parameter? ")" "{" statement* "}"
+
+dataType  ::= "int" ws | "float" ws | "char" ws
+identifier ::= [a-zA-Z_] [a-zA-Z_0-9]*
+
+parameter ::= dataType identifier
+
+statement ::=
+    ( dataType identifier ws "=" ws expression ";" ) |
+    ( identifier ws "=" ws expression ";" ) |
+    ( identifier ws "(" argList? ")" ";" ) |
+    ( "return" ws expression ";" ) |
+    ( "while" "(" condition ")" "{" statement* "}" ) |
+    ( "for" "(" forInit ";" ws condition ";" ws forUpdate ")" "{" statement* "}" ) |
+    ( "if" "(" condition ")" "{" statement* "}" ("else" "{" statement* "}")? ) |
+    ( singleLineComment ) |
+    ( multiLineComment )
+
+forInit ::= dataType identifier ws "=" ws expression | identifier ws "=" ws expression
+forUpdate ::= identifier ws "=" ws expression
+
+condition ::= expression relationOperator expression
+relationOperator ::= ("<=" | "<" | "==" | "!=" | ">=" | ">")
+
+expression ::= term (("+" | "-") term)*
+term ::= factor(("*" | "/") factor)*
+
+factor ::= identifier | number | unaryTerm | funcCall | parenExpression
+unaryTerm ::= "-" factor
+funcCall ::= identifier "(" argList? ")"
+parenExpression ::= "(" ws expression ws ")"
+
+argList ::= expression ("," ws expression)*
+
+number ::= [0-9]+
+
+singleLineComment ::= "//" [^\n]* "\n"
+multiLineComment ::= "/*" ( [^*] | ("*" [^/]) )* "*/"
+
+ws ::= ([ \t\n]+)
+```

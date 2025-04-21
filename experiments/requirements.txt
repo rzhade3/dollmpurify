@@ -1,0 +1,5 @@
+lark
+jupyter
+openai
+fireworks-ai
+python-dotenv

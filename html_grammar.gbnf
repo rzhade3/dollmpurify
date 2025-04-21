@@ -1,0 +1,69 @@
+# Root rule that defines the overall structure
+root ::= html
+
+html ::= "<html>" head body "</html>"
+head ::= "<head>" (headElement | text)* "</head>"
+body ::= "<body>" (bodyElement | text)* "</body>"
+
+headElement ::= title | meta | link | script
+title ::= "<title>" text* "</title>"
+meta ::= "<meta" attributes "/>"
+link ::= "<link" attributes "/>"
+script ::= "<script" attributes ">" text* "</script>"
+
+# An element can be any of the supported HTML tags
+bodyElement ::= paragraph | emphasis | strong | anchor | image | blockquote | code | preformatted | heading | horizontalRule | break | unorderedList | orderedList
+
+# Text content that can appear anywhere
+text ::= [^<>]+
+
+# Paragraph element
+paragraph ::= "<p>" (bodyElement | text)* "</p>"
+
+# Emphasis (italic) element
+emphasis ::= "<em>" (bodyElement | text)* "</em>"
+
+# Strong emphasis (bold) element
+strong ::= "<strong>" (bodyElement | text)* "</strong>"
+
+# Anchor (link) element
+anchor ::= "<a" attributes ">" (bodyElement | text)* "</a>"
+
+# Image element (self-closing)
+image ::= "<img" attributes "/>"
+
+# Blockquote element
+blockquote ::= "<blockquote>" (bodyElement | text)* "</blockquote>"
+
+# Inline code element
+code ::= "<code>" text "</code>"
+
+# Preformatted text block
+preformatted ::= "<pre>" (code | text)* "</pre>"
+
+# Headings (h1 through h6)
+heading ::= h1 | h2 | h3 | h4 | h5 | h6
+h1 ::= "<h1>" (bodyElement | text)* "</h1>"
+h2 ::= "<h2>" (bodyElement | text)* "</h2>"
+h3 ::= "<h3>" (bodyElement | text)* "</h3>"
+h4 ::= "<h4>" (bodyElement | text)* "</h4>"
+h5 ::= "<h5>" (bodyElement | text)* "</h5>"
+h6 ::= "<h6>" (bodyElement | text)* "</h6>"
+
+# Self closing
+horizontalRule ::= "<hr" attributes? "/>"
+break ::= "<br" attributes? "/>"
+
+# List structures
+unorderedList ::= "<ul>" listItem+ "</ul>"
+orderedList ::= "<ol>" listItem+ "</ol>"
+listItem ::= "<li>" (bodyElement | text)* "</li>"
+
+# Attributes that can appear in tags
+attributes ::= (ws attribute)* ws
+attribute ::= attributeName "=" attributeValue
+attributeName ::= [a-zA-Z][a-zA-Z0-9-]*
+attributeValue ::= "\"" [^"]* "\""
+
+# Whitespace definition
+ws ::= [ \t\n\r]*
