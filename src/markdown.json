@@ -1,0 +1,11 @@
+{
+  "ALLOWED_TAGS": [
+    "a", "b", "i", "em", "strong", "p", "ul", "li", "br",
+    "img", "blockquote", "code", "pre", "h1", "h2", "h3", "h4", "h5", "h6", "hr", "ol"
+  ],
+  "ALLOWED_ATTR": ["href", "title", "target", "rel"],
+  "ADD_ATTR": ["noopener"],
+  "ADD_TAGS": [],
+  "KEEP_CONTENT": false,
+  "RETURN_TRUSTED_TYPE": false
+}
