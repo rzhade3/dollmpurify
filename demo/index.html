@@ -117,12 +117,12 @@
 		
 		<script src="https://cdn.jsdelivr.net/npm/ejs@3.1.10/ejs.min.js"></script>
 		<script type="module">
-			import { RenderGrammar, ParseConfig } from '/dist/dollmpurify.js';
+			import { RenderGrammar, ParseConfig } from './dist/dollmpurify.js';
 			
 			let grammarTemplate = '';
 			
 			// Fetch the template first
-			fetch('../dist/html_grammar.ejs')
+			fetch('./dist/html_grammar.ejs')
 				.then(response => response.text())
 				.then(template => {
 					grammarTemplate = template;
