@@ -37,15 +37,15 @@
 		<textarea>
 {
 	"ALLOWED_TAGS": [
-	"a", "b", "i", "em", "strong", "p", "ul", "li", "br",
-	"img", "blockquote", "code", "pre", "h1", "h2", "h3", "h4", "h5", "h6", "hr", "ol"
+		"a", "b", "i", "em", "strong", "p", "ul", "li", "br", "img", "blockquote",
+		"code", "pre", "h1", "h2", "h3", "h4", "h5", "h6", "hr", "ol"
 	],
 	"ALLOWED_ATTR": ["href", "title", "target", "rel"],
 	"ADD_ATTR": ["noopener"],
 	"ADD_TAGS": [],
 	"KEEP_CONTENT": false,
 	"RETURN_TRUSTED_TYPE": false
-}			  
+}
 		</textarea>
 		<button id="generate">Generate Grammar</button>
 
@@ -73,7 +73,7 @@
 				}
 				const apiKey = document.getElementById('apiKey').value;
 				const prompt = document.getElementById('prompt').value;
-				
+
 				fetch("https://api.fireworks.ai/inference/v1/chat/completions", {
 					method: "POST",
 					headers: {
@@ -114,29 +114,16 @@
 				});
 			});
 		</script>
-		
-		<script src="https://cdn.jsdelivr.net/npm/ejs@3.1.10/ejs.min.js"></script>
+
 		<script type="module">
-			import { RenderGrammar, ParseConfig } from './dist/dollmpurify.js';
-			
-			let grammarTemplate = '';
-			
-			// Fetch the template first
-			fetch('./dist/html_grammar.ejs')
-				.then(response => response.text())
-				.then(template => {
-					grammarTemplate = template;
-				})
-				.catch(error => {
-					console.error('Error loading template:', error);
-				});
+			import { GenerateGrammar, ParseConfig } from 'https://cdn.jsdelivr.net/gh/rzhade3/dollmpurify@main/dist/dollmpurify.js';
 
 			// Add event listener to the button
 			document.getElementById('generate').addEventListener('click', function() {
                 try {
                     const config = JSON.parse(document.querySelector('textarea').value);
                     const parsedConfig = ParseConfig(config);
-                    const output = RenderGrammar(grammarTemplate, parsedConfig);
+                    const output = GenerateGrammar(parsedConfig);
                     document.getElementById('grammar').value = output;
                 } catch (error) {
                     console.error('Error generating grammar:', error);
@@ -144,6 +131,6 @@
                 }
             });
 		</script>
-		
+
 	</body>
 </html>

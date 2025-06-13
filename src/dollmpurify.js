@@ -1,7 +1,38 @@
 import { DefaultAllowedAttributes, DefaultAllowedTags, SelfClosingTags } from './tags.js';
+import ejs from 'ejs/ejs.min.js';
 
-export function RenderGrammar(grammar_template, config) {
-    return ejs.render(grammar_template, config, {});
+export const HTML_GRAMMAR_TEMPLATE = `root ::= html
+
+html ::= "<html>" head body "</html>"
+head ::= "<head>" (headElement | text)* "</head>"
+body ::= "<body>" (bodyElement | text)* "</body>"
+
+headElement ::= title | meta | link
+title ::= "<title>" text* "</title>"
+meta ::= "<meta" attributes "/>"
+link ::= "<link" attributes "/>"
+
+bodyElement ::= <%= allowedTags.join(" | ") %>
+
+text ::= [^<>]+
+
+<% selfClosingTags.forEach(tag => { %>
+<%= tag %> ::= "<<%= tag %>" attributes? "/>"
+<% }) %>
+
+<% nonSelfClosingTags.forEach(tag => { %>
+<%= tag %> ::= "<<%= tag %>" attributes? ">" (bodyElement | text)* "</<%= tag %>>"
+<% }) %>
+
+attributes ::= (ws attribute)* ws
+attribute ::= attributeName "=" attributeValue
+attributeName ::= <%- allowedAttributes.map(a => '"' + a + '"').join(" | ") %>
+attributeValue ::= "\\"" [^"]* "\\""
+
+ws ::= [ \\t\\n\\r]*`
+
+export function GenerateGrammar(config) {
+    return ejs.render(HTML_GRAMMAR_TEMPLATE, config, {});
 }
 
 export function ParseConfig(config) {
@@ -23,5 +54,3 @@ export function ParseConfig(config) {
 		nonSelfClosingTags,
 	};
 }
-
-

@@ -2,10 +2,11 @@
   "name": "dollmpurify",
   "version": "1.0.0",
   "description": "Generate GCD grammar to generate valid HTML",
-  "main": "main.js",
+  "main": "dollmpurify.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "esbuild src/*.js --bundle --format=esm --outdir=demo/dist && cp src/html_grammar.ejs demo/dist/html_grammar.js && cp src/html_grammar.ejs demo/dist/html_grammar.ejs"
+    "compile": "esbuild src/dollmpurify.js --bundle --format=esm --outdir=dist --minify"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,6 @@
     "ejs": "^3.1.10"
   },
   "devDependencies": {
-    "esbuild": "^0.25.2"
+    "esbuild": "^0.25.5"
   }
 }
